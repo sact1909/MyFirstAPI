@@ -53,8 +53,16 @@ namespace MyFirstAPI.Controllers
 
         public IHttpActionResult Post([FromBody]T_USER Usuarios)
         {
-            string variable = "Ejemplo";
-            return Json(new { Resultado = variable});
+            if (ModelState.IsValid)
+            {
+                db.T_USER.Add(Usuarios);
+                db.SaveChanges();
+                return Json(new { Resultado = "Registro guardado" });
+            }
+            else {
+                return Json(new { Resultado = "Error, Los datos no concuerdan" });
+            }
+            
         }
 
 
