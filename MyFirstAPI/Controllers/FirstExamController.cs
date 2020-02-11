@@ -51,6 +51,12 @@ namespace MyFirstAPI.Controllers
                 );
         }
 
+        public IHttpActionResult Post([FromBody]T_USER Usuarios)
+        {
+
+            return Json(new { Resultado = "Ok"});
+        }
+
 
     }
 }
