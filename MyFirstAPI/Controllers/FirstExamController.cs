@@ -53,8 +53,8 @@ namespace MyFirstAPI.Controllers
 
         public IHttpActionResult Post([FromBody]T_USER Usuarios)
         {
-
-            return Json(new { Resultado = "Ok"});
+            string variable = "Ejemplo";
+            return Json(new { Resultado = variable});
         }
 
 
