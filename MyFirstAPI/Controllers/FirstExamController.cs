@@ -31,6 +31,7 @@ namespace MyFirstAPI.Controllers
             return Json(UsuarioBusqueda);
         }
 
+        
         [Route("api/Values/busqueda/{id}")]
         [HttpGet]
         public IHttpActionResult Busqueda(int ID, string NombreConsulta) {
