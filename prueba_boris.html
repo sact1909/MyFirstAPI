@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Title Page</title>
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+		<style>
+			#Formulario>tr>td{
+				padding: 1555px;
+			}
+		</style>
+	</head>
+	<body>
+		<h1 class="text-center">Send Data</h1>
+		<form action="" id="DatosUsuarios" method="POST">
+			<input type="hidden" value="0" name="CODIGO" id="CODIGO">
+			<input type="hidden" value=" " name="APIKEY" id="APIKEY">
+			<table id="Formulario">
+				<tr>
+					<td>Nombre</td>
+					<td><input type="text" name="NOMBRE" id="NOMBRE" class="form-control" required="required" ></td>
+				</tr>
+				<tr>
+					<td>Apellido</td>
+					<td><input type="text" name="APELLIDO" id="APELLIDO" class="form-control" required="required" ></td>
+				</tr>
+				<tr>
+					<td>Telefono</td>
+					<td><input type="text" name="TELEFONO" id="TELEFONO" class="form-control" required="required" ></td>
+				</tr>
+				<tr>
+					<td>Direcion</td>
+					<td>
+						<input type="text" name="DIRECION" id="DIRECION" class="form-control" required="required" >
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<button type="submit" class="btn btn-primary" id="SentReg">Enviar</button>
+						<button type="button" class="btn btn-success" id="EditReg" disabled>Editar</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+		<hr>
+		<table class="table table-responsive">
+			<caption>Datos Usuarios</caption>
+			<thead>
+				<tr>
+					<th>Codigo</th>
+					<th>Nombre</th>
+					<th>Apellido</th>
+					<th>Telefono</th>
+					<th>Direcion</th>
+					<th>Api Key</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody id="bodyTable">
+			</tbody>
+		</table>
+		<!-- jQuery -->
+		<script src="//code.jquery.com/jquery.js"></script>
+		<!-- Bootstrap JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+		
+
+
+
+		<script>
+			
+			let Edit=function (Codigo){
+
+				var myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+				var requestOptions = {
+					method: 'GET',
+					headers: myHeaders
+				};
+
+				fetch("https://localhost:44312/api/FirstExam/"+Codigo, requestOptions)
+				.then(response => response.json())
+				.then(function(data){
+					console.log(data);
+					var txtCodigo = document.getElementById("CODIGO");
+					var txtApiKey = document.getElementById("APIKEY");
+					var txtNombre = document.getElementById("NOMBRE");
+					var txtApellido = document.getElementById("APELLIDO");
+					var txtTelefono = document.getElementById("TELEFONO");
+					var txtDirecion = document.getElementById("DIRECION");
+					var btnSentReg = document.getElementById("SentReg");
+					var btnEditReg = document.getElementById("EditReg");
+
+					txtCodigo.value = data.CODIGO;
+					txtApiKey.value = data.APIKEY;
+					txtNombre.value = data.NOMBRE;
+					txtApellido.value = data.APELLIDO;
+					txtTelefono.value = data.TELEFONO;
+					txtDirecion.value = data.DIRECION;
+
+					btnSentReg.disabled=true;
+					btnEditReg.disabled=false;
+
+					
+					
+
+				})
+				.catch(error => console.log('error', error));
+			}
+
+
+
+			let Delete=function (Codigo){
+				var myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+				var requestOptions = {
+					method: 'DELETE',
+					headers: myHeaders
+				};
+
+				fetch("https://localhost:44312/api/FirstExam/"+Codigo, requestOptions)
+				.then(response => response.json())
+				.then(function(data){
+					//console.log(data.Resultado);
+					
+					if(data.Resultado == "Registro Eliminado"){
+							//window.location.href = "prueba_boris.html"
+							LoadDataDelete();
+						}
+					})
+				.catch(error => console.log('error', error));
+				
+			}
+			
+
+
+			$(document).ready(function(){
+
+				let ClearInputs = function(){
+
+					var txtCodigo = document.getElementById("CODIGO");
+					var txtApiKey = document.getElementById("APIKEY");
+					var txtNombre = document.getElementById("NOMBRE");
+					var txtApellido = document.getElementById("APELLIDO");
+					var txtTelefono = document.getElementById("TELEFONO");
+					var txtDirecion = document.getElementById("DIRECION");
+					var btnSentReg = document.getElementById("SentReg");
+					var btnEditReg = document.getElementById("EditReg");
+
+					txtCodigo.value = "0";
+					txtApiKey.value = " ";
+					txtNombre.value = "";
+					txtApellido.value = "";
+					txtTelefono.value = "";
+					txtDirecion.value = "";
+
+
+					btnSentReg.disabled=false;
+					btnEditReg.disabled=true;
+				}
+
+				let LoadData= function(){
+
+					var myHeaders = new Headers();
+					myHeaders.append("Content-Type", "application/json");
+
+					
+
+					var requestOptions = {
+						method: 'GET',
+						headers: myHeaders
+					};
+
+					fetch("https://localhost:44312/api/FirstExam/", requestOptions)
+					.then(response => response.json())
+					.then(function(data){
+
+						
+						$("#bodyTable").empty()
+						data.forEach(function(item){
+							
+							var tr = document.createElement("tr");
+							var tdCodigo = document.createElement("td");
+							var tdApiKey = document.createElement("td");
+							var tdNombre = document.createElement("td");
+							var tdApellido = document.createElement("td");
+							var tdTelefono = document.createElement("td");
+							var tdDirecion = document.createElement("td");
+							var tdAcciones = document.createElement("td");
+							
+							/*Boton Update*/
+							var tdHrefPut = document.createElement("a");
+							var tdSpanPut = document.createElement("span");
+							tdSpanPut.setAttribute("class","glyphicon glyphicon-pencil");
+							tdHrefPut.setAttribute("href","#");
+							tdHrefPut.setAttribute("onclick","Edit("+item.CODIGO+")");
+							tdHrefPut.append(tdSpanPut);
+							/*End Boton Update*/
+
+
+							/*Boton Delete*/
+							var tdHrefDel = document.createElement("a");
+							var tdSpanDel = document.createElement("span");
+							tdSpanDel.setAttribute("class","glyphicon glyphicon-remove");
+							tdHrefDel.setAttribute("href","#");
+							tdHrefDel.setAttribute("onclick","Delete("+item.CODIGO+")");
+							tdHrefDel.append(tdSpanDel);
+							/*End Boton Delete*/	
+
+							tdCodigo.append(item.CODIGO);
+							tdNombre.append(item.NOMBRE);
+							tdApellido.append(item.APELLIDO);
+							tdTelefono.append(item.TELEFONO);
+							tdDirecion.append(item.DIRECION);
+							tdApiKey.append(item.APIKEY);
+							tdAcciones.append(tdHrefPut);
+							tdAcciones.append(tdHrefDel);
+							tr.append(tdCodigo);
+							tr.append(tdNombre)
+							tr.append(tdApellido);
+							tr.append(tdTelefono);
+							tr.append(tdDirecion);
+							tr.append(tdApiKey);
+							tr.append(tdAcciones);
+							$("#bodyTable").append(tr);
+								//console.log(td);
+								//tr.append(td);
+
+
+							});
+						
+
+
+					})
+					.catch(error => console.log('error', error));
+
+				}
+
+				LoadData();
+
+
+				
+
+				$("#EditReg").click(function(){
+
+					var myHeaders = new Headers();
+					myHeaders.append("Content-Type", "application/json");
+
+					var FormData = $("#DatosUsuarios").serializeArray();
+					
+					var requestOptions = {
+						method: 'PUT',
+						headers: myHeaders
+					};
+
+					fetch("https://localhost:44312/api/FirstExam?"+jQuery.param(FormData), requestOptions)
+					.then(response => response.json())
+					.then(function(data){
+					//console.log(data.Resultado);
+					
+					if(data.Resultado == "Registro Actualizado"){
+							//window.location.href = "prueba_boris.html"
+							LoadData();
+							ClearInputs();
+						}
+					})
+					.catch(error => console.log('error', error));
+
+				});
+
+
+
+
+				$("#DatosUsuarios").submit(function(e) {
+					e.preventDefault();
+
+					var myHeaders = new Headers();
+					myHeaders.append("Content-Type", "application/json");
+
+					var FormData = $("#DatosUsuarios").serializeArray();
+					
+					var requestOptions = {
+						method: 'POST',
+						headers: myHeaders
+					};
+
+					fetch("https://localhost:44312/api/FirstExam?"+jQuery.param(FormData), requestOptions)
+					.then(response => response.json())
+					.then(function(data){
+					//console.log(data.Resultado);
+					
+					if(data.Resultado == "Registro guardado"){
+						//window.location.href = "prueba_boris.html"
+						LoadData();
+						ClearInputs();
+					}
+				})
+					.catch(error => console.log('error', error));
+				});
+
+
+
+				window.LoadDataDelete=function(){
+
+					LoadData();
+					ClearInputs();
+				}
+
+			});
+
+		</script>
+	</body>
+	</html>

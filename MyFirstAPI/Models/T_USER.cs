@@ -19,5 +19,6 @@ namespace MyFirstAPI.Models
         public string APELLIDO { get; set; }
         public string TELEFONO { get; set; }
         public string DIRECION { get; set; }
+        public string APIKEY { get; set; }
     }
 }

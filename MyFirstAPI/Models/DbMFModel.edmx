@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="MyFirstDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="MyFirstDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="T_USER">
           <Key>
             <PropertyRef Name="CODIGO" />
@@ -14,12 +14,12 @@
           <Property Name="APELLIDO" Type="varchar" MaxLength="250" />
           <Property Name="TELEFONO" Type="varchar" MaxLength="250" />
           <Property Name="DIRECION" Type="varchar" MaxLength="250" />
+          <Property Name="APIKEY" Type="varchar" MaxLength="250" />
         </EntityType>
         <EntityContainer Name="MyFirstDbModelStoreContainer">
           <EntitySet Name="T_USER" EntityType="Self.T_USER" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MyFirstDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -32,6 +32,7 @@
           <Property Name="APELLIDO" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="TELEFONO" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="DIRECION" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="APIKEY" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityContainer Name="MyFirstDbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="T_USER" EntityType="Self.T_USER" />
@@ -45,6 +46,7 @@
           <EntitySetMapping Name="T_USER">
             <EntityTypeMapping TypeName="MyFirstDbModel.T_USER">
               <MappingFragment StoreEntitySet="T_USER">
+                <ScalarProperty Name="APIKEY" ColumnName="APIKEY" />
                 <ScalarProperty Name="CODIGO" ColumnName="CODIGO" />
                 <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
                 <ScalarProperty Name="APELLIDO" ColumnName="APELLIDO" />

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyFirstAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -9,15 +10,45 @@ using System.Web.Mvc;
 
 namespace MyFirstAPI.Controllers
 {
-    public class HomeController : Controller
+    public class APIAdmController : Controller
     {
+        private readonly MyFirstDbEntities db = new MyFirstDbEntities();
+        // GET: APIAdm
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
-            ViewBag.Codigo = CreateApiKey();
+            var Usuarios = db.T_USER.ToList();
+            return View(Usuarios);
+        }
+
+        public ActionResult Create()
+        {
+
+
 
             return View();
         }
+
+        [HttpPost]
+        public ActionResult Create(T_USER usuario)
+        {
+
+            if (ModelState.IsValid)
+            {
+
+                usuario.APIKEY = CreateApiKey();
+                db.T_USER.Add(usuario);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
+
+
+        }
+
+
 
 
         public static string CreateApiKey()
@@ -40,5 +71,7 @@ namespace MyFirstAPI.Controllers
             }
             return builder.ToString();
         }
+
+
     }
 }

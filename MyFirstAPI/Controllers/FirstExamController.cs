@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Newtonsoft.Json;
+using System.Data.Entity;
 
 namespace MyFirstAPI.Controllers
 {
@@ -26,32 +27,23 @@ namespace MyFirstAPI.Controllers
         {
 
 
-            var UsuarioBusqueda = db.T_USER.Where(w => w.CODIGO == ID).Select(s=> new {s.NOMBRE,s.APELLIDO}).FirstOrDefault();
+            var UsuarioBusqueda = db.T_USER.Where(w => w.CODIGO == ID).FirstOrDefault();
 
             return Json(UsuarioBusqueda);
         }
 
-        [Route("api/Values/busqueda/{id}")]
-        [HttpGet]
-        public IHttpActionResult Busqueda(int ID, string NombreConsulta) {
+        //[Route("api/FirstExam/busqueda/{id}")]
+        //[HttpGet]
+        //public IHttpActionResult Busqueda(int ID, string NombreConsulta) {
 
-            var UsuarioBusqueda = db.T_USER.Where(w => w.CODIGO == ID).FirstOrDefault();
-            int[] grupo = new int[] {5,2,3,7,8};
+        //    var UsuarioBusqueda = db.T_USER.Where(w => w.CODIGO == ID).FirstOrDefault();
+        //    int[] grupo = new int[] {5,2,3,7,8};
 
 
-            return Json(
-                    new { 
-                        ConsultorDetalle = 
-                        new {
-                            Nombre = NombreConsulta,
-                            Grupos = new { grupo }
-                        }, 
-                        Busqueda = UsuarioBusqueda
-                    }
-                );
-        }
+        //    return Json(UsuarioBusqueda);
+        //}
 
-        public IHttpActionResult Post([FromBody]T_USER Usuarios)
+        public IHttpActionResult Post([FromUri]T_USER Usuarios)
         {
             if (ModelState.IsValid)
             {
@@ -65,6 +57,42 @@ namespace MyFirstAPI.Controllers
             
         }
 
+
+        public IHttpActionResult Put([FromUri]T_USER Usuarios)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(Usuarios).State = EntityState.Modified;
+                db.SaveChanges();
+                return Json(new { Resultado = "Registro Actualizado" });
+            }
+            else
+            {
+                return Json(new { Resultado = "Error, Los datos no concuerdan" });
+            }
+
+        }
+
+        public IHttpActionResult Delete(int ID)
+        {
+
+            try
+            {
+
+                var UsuarioBusqueda = db.T_USER.Where(w => w.CODIGO == ID).FirstOrDefault();
+                //db.Entry(UsuarioBusqueda).State = EntityState.Deleted;
+                db.T_USER.Remove(UsuarioBusqueda);
+                db.SaveChanges();
+                return Json(new { Resultado = "Registro Eliminado" });
+
+            }
+            catch (Exception e) {
+                return Json(new { Resultado = e.ToString() });
+            }
+                
+           
+
+        }
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyFirstAPI.Handlers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -13,7 +14,7 @@ namespace MyFirstAPI
 
             // Web API routes
             config.MapHttpAttributeRoutes();
-
+            config.MessageHandlers.Add(new APIKeyHandler());
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
