@@ -7,12 +7,15 @@ using System.Net.Http;
 using System.Web.Http;
 using Newtonsoft.Json;
 using System.Data.Entity;
+using System.Web.Http.Cors;
 
 namespace MyFirstAPI.Controllers
 {
+    //[EnableCors(origins: "*", headers: "*", methods: "*")]
     public class FirstExamController : ApiController
     {
         private readonly MyFirstDbEntities db = new MyFirstDbEntities();
+
         public List<T_USER> Get() {
 
             //using (var db = new MyFirstDbEntities()) { 
