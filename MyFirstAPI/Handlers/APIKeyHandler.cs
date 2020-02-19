@@ -18,6 +18,13 @@ namespace MyFirstAPI.Handlers
             bool validApi = false;
             IEnumerable<string> requesHeader;
             var checkApiKeyExist = request.Headers.TryGetValues("ApiKey-First-App", out requesHeader);
+
+            var metodo = request.Method.ToString();
+            if (metodo == "OPTIONS") {
+                return request.CreateResponse(
+                    HttpStatusCode.OK);
+            }
+
             if (checkApiKeyExist) {
 
                 var HttpApiKey = requesHeader.FirstOrDefault().ToString();
